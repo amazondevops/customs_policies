@@ -9,7 +9,7 @@
 # class S3PCIPrivateACL(BaseResourceCheck):
 #     def __init__(self) -> None:
 #         name = "Ensure Bucket must contain a tag called product_v2 and terraform_managed"
-#         id = "CKV_AWS_999"
+#         id = "JG_TF_01"
 #         supported_resources = ("aws_s3_bucket",)
 #         categories = (CheckCategories.BACKUP_AND_RECOVERY,)
 #         guideline = "Follow the link to get more info https://docs.prismacloud.io/en/enterprise-edition/policy-reference"
