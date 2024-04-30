@@ -1,0 +1,4 @@
+check:
+  - JG_AWS_*_*
+skip-check:
+  - JG_AWS_SG_O1
