@@ -13,7 +13,7 @@ class NonPublicPort80Check(BaseResourceCheck):
     def scan_resource_conf(self, conf) -> CheckResult:
         print(conf)
         ingress_rules = conf.get("ingress")
-        #print("***",ingress_rules)
+        print("***",ingress_rules)
         if ingress_rules:
             for rule in ingress_rules:
                 from_ports = rule.get("from_port")
