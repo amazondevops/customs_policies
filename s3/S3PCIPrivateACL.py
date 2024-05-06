@@ -15,7 +15,7 @@ class S3PCIPrivateACL(BaseResourceCheck):
         # Initialize with a generic name
         self.name = "Ensure Resource must contain a tag called product_v2 and terraform_managed"
         id = "JG_AWS_TGA_01"
-        supported_resources = ("aws_s3_bucket", "aws_instance", "aws_vpc", "aws_subnet", "aws_network_interface", "aws_security_group", "s3_bucket", "security_group",)
+        supported_resources = ("aws_s3_bucket", "aws_instance", "aws_vpc", "aws_subnet", "aws_network_interface", "aws_security_group", "aws_security_group_rule",)
         categories = (CheckCategories.BACKUP_AND_RECOVERY,)
         guideline = "Follow the link to get more info https://docs.prismacloud.io/en/enterprise-edition/policy-reference"
         super().__init__(name=self.name, id=id, categories=categories, supported_resources=supported_resources, guideline=guideline)
