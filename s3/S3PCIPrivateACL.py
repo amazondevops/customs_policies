@@ -35,7 +35,7 @@ class S3PCIPrivateACL(BaseResourceCheck):
         :param conf: aws_s3_bucket configuration
         :return: <CheckResult>
         """
-        print("******", conf, "******")
+        #print("******", conf, "******")
         if conf.get('__address__') in self.whitelist_set:
             print(f"Skipping checks for whitelisted resource {conf['__address__']}")
             return CheckResult.SKIPPED
