@@ -1,5 +1,12 @@
+
+
 from checkov.terraform.checks.resource.base_resource_check import BaseResourceCheck
 from checkov.common.models.enums import CheckResult, CheckCategories
+import os
+
+# Get the absolute path of the whitelist file relative to the script's location
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+WHITELIST_FILE = os.path.join(SCRIPT_DIR, '../JG_AWS_SG_O1_Whitelist_resources.txt')
 
 class NonPublicPort80Check(BaseResourceCheck):
     def __init__(self) -> None:
@@ -9,11 +16,23 @@ class NonPublicPort80Check(BaseResourceCheck):
         categories = (CheckCategories.NETWORKING,)
         guideline = "Port 80 should not be open to everywhere in security group rules."
         super().__init__(name=name, id=id, categories=categories, supported_resources=supported_resources, guideline=guideline)
+        self.whitelist_set = self.load_whitelist()
+
+    def load_whitelist(self) -> set[str]:
+        whitelist_set = set()
+        if os.path.isfile(WHITELIST_FILE) and os.path.getsize(WHITELIST_FILE) > 0:
+            with open(WHITELIST_FILE, 'r') as f:
+                whitelist_set = {line.strip() for line in f}
+        return whitelist_set
 
     def scan_resource_conf(self, conf) -> CheckResult:
-        print(conf)
+        #print("________", conf, "------------")
+        resource_name = conf.get('__address__')
+        if resource_name in self.whitelist_set:
+            print(f"Skipping checks for whitelisted resource {resource_name}")
+            return CheckResult.SKIPPED
+
         ingress_rules = conf.get("ingress")
-        print("***",ingress_rules)
         if ingress_rules:
             for rule in ingress_rules:
                 from_ports = rule.get("from_port")
