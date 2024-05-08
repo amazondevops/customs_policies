@@ -1,1 +1,2 @@
- aws_s3_bucket.my_bucket
+module.ec2_instance["one"].aws_instance.this[0]
+module.ec2_instance["two"].aws_instance.this[0]
