@@ -41,7 +41,7 @@ class S3PCIPrivateACL(BaseResourceCheck):
             return CheckResult.SKIPPED
 
         tags = conf.get("tags")
-        if tags is None or (isinstance(tags, list) and len(tags) == 0) or (isinstance(tags, list) and isinstance(tags[0], dict) and len(tags[0]) == 0):
+        if tags is None or tags == [None] or (isinstance(tags, list) and len(tags) == 0) or (isinstance(tags, list) and isinstance(tags[0], dict) and len(tags[0]) == 0):
             return CheckResult.FAILED
 
         tag_dict = tags[0]
