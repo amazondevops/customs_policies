@@ -12,13 +12,15 @@ class NonPublicPort80Check(BaseResourceCheck):
     def __init__(self) -> None:
         name = "Ensure AWS security groups do not have port 80 open to everywhere"
         id = "JG_AWS_SG_O1"
-        supported_resources = ("aws_security_group","security_group","module.security_group","aws_security_group_rule",)
+        supported_resources = ("aws_security_group",)
         categories = (CheckCategories.NETWORKING,)
         guideline = "Port 80 should not be open to everywhere in security group rules."
         super().__init__(name=name, id=id, categories=categories, supported_resources=supported_resources, guideline=guideline)
         self.whitelist_set = self.load_whitelist()
+        #print("dddddd")
 
     def load_whitelist(self) -> set[str]:
+        #print("lwwlwlwlwlwl")
         whitelist_set = set()
         if os.path.isfile(WHITELIST_FILE) and os.path.getsize(WHITELIST_FILE) > 0:
             with open(WHITELIST_FILE, 'r') as f:
@@ -26,13 +28,15 @@ class NonPublicPort80Check(BaseResourceCheck):
         return whitelist_set
 
     def scan_resource_conf(self, conf) -> CheckResult:
-        #print("________", conf, "------------")
+        #print("sssss")
+        #print("________1", conf, "------------2")
         resource_name = conf.get('__address__')
         if resource_name in self.whitelist_set:
             print(f"Skipping checks for whitelisted resource {resource_name}")
             return CheckResult.SKIPPED
-
+        
         ingress_rules = conf.get("ingress")
+        #print(ingress_rules)
         if ingress_rules:
             for rule in ingress_rules:
                 from_ports = rule.get("from_port")
@@ -53,4 +57,7 @@ class NonPublicPort80Check(BaseResourceCheck):
                 return CheckResult.PASSED
 
 non_public_port_80_check = NonPublicPort80Check()
+
+
+
 
